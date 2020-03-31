@@ -1,0 +1,1 @@
+# redmine-user-generator
