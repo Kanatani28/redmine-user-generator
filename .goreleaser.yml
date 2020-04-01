@@ -26,9 +26,9 @@ archives:
     format_overrides:
       - goos: windows
         format: zip
-  files:
-    - users.csv
-    - config.yml
-    - README.md
+    files:
+      - users.csv
+      - config.yml
+      - README.md
 release:
   prerelease: auto
