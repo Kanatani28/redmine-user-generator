@@ -1,14 +1,12 @@
 project_name: redmine-user-generator
 env:
-  - GO111MODULE=on
+  - GO111MODULE=off
 before:
   hooks:
     - go mod tidy
 builds:
   - main: .
     binary: usergen
-    ldflags:
-      - -s -w
     env:
       - CGO_ENABLED=0
 archives:
