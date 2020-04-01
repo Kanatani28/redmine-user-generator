@@ -39,22 +39,15 @@ const (
 )
 
 func main() {
-
-	c, err := ioutil.ReadFile(CONFIG_FILE)
-	if err != nil {
-		log.Fatal(err)
-	}
-	conf := Conf{}
-	yaml.Unmarshal([]byte(c), &conf)
+	log.Println("# START MAIN")
+	conf := loadConfig()
 
 	users := readUserData()
 
 	requestURL := `http://` + conf.Host + `/users.json?key=` + conf.ApiKey
+	log.Println("## REQUEST URL : " + requestURL)
 
 	for _, user := range users {
-		fmt.Println(requestURL)
-		fmt.Println(conf.AuthUser + ":" + conf.AuthPass)
-		fmt.Println(getJSON(user))
 
 		client := &http.Client{Timeout: time.Duration(10) * time.Second}
 		jsonData := bytes.NewBuffer([]byte(getJSON(user)))
@@ -74,17 +67,27 @@ func main() {
 		fmt.Println(string(getContent(resp)))
 
 	}
+
+	log.Println("# FINISH MAIN")
 }
 
-func getContent(resp *http.Response) []byte {
-	b, err := ioutil.ReadAll(resp.Body)
+func loadConfig() Conf {
+	log.Println("## START LOADING CONFIG")
+	c, err := ioutil.ReadFile(CONFIG_FILE)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return b
+	conf := Conf{}
+	yaml.Unmarshal([]byte(c), &conf)
+
+	log.Println("## FINISH LOADING CONFIG")
+
+	return conf
 }
 
 func readUserData() [][]string {
+
+	log.Println("## START READ USER DATA")
 
 	file, err := os.Open(USER_DATA_CSV)
 	if err != nil {
@@ -98,7 +101,18 @@ func readUserData() [][]string {
 	if err != nil {
 		log.Fatal(err)
 	}
+	validateUsers(users[1:])
+
+	log.Println("## FINISH READ USER DATA")
 	return users[1:]
+}
+
+func getContent(resp *http.Response) []byte {
+	b, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return b
 }
 
 func getJSON(user []string) string {
@@ -109,4 +123,30 @@ func getJSON(user []string) string {
 	jsonStr = strings.Replace(jsonStr, "${mail}", user[MAIL], -1)
 	jsonStr = strings.Replace(jsonStr, "${admin}", user[ADMIN], -1)
 	return jsonStr
+}
+
+func validateUsers(users [][]string) {
+	for i, user := range users {
+		if user[LOGIN] == "" {
+			log.Fatalf("loginが入力されていません。%d番目のユーザー", i+1)
+		}
+		if user[PASSWORD] == "" {
+			log.Fatalf("passwordが入力されていません。%d番目のユーザー", i+1)
+		}
+		if len(user[PASSWORD]) < 8 {
+			log.Fatalf("passwordは8桁以上である必要があります。%d番目のユーザー", i+1)
+		}
+		if user[FIRSTNAME] == "" {
+			log.Fatalf("firstnameが入力されていません。%d番目のユーザー", i+1)
+		}
+		if user[LASTNAME] == "" {
+			log.Fatalf("lastnameが入力されていません。%d番目のユーザー", i+1)
+		}
+		if user[MAIL] == "" {
+			log.Fatalf("mailが入力されていません。%d番目のユーザー", i+1)
+		}
+		if !(user[ADMIN] == "true" || user[ADMIN] == "false") {
+			log.Fatalf("adminはtrueかfalseで入力してください。%d番目のユーザー", i+1)
+		}
+	}
 }
