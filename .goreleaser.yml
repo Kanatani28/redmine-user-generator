@@ -7,6 +7,8 @@ before:
 builds:
   - main: .
     binary: usergen
+    ldflags:
+      - -s -w
     env:
       - CGO_ENABLED=0
 archives:
