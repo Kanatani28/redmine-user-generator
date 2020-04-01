@@ -1,5 +1,7 @@
 # redmine-user-generator
 
+[ダウンロードはこちらから](https://github.com/Kanatani28/redmine-user-generator/releases)
+
 config.ymlとusers.csvに設定をしてから実行ファイルを叩くと  
 Redmineのユーザーが一気に作成されます。
 
