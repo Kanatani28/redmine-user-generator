@@ -35,5 +35,5 @@ CSVデータなのでExcel等で編集するとちょっと楽です。
 |password|パスワード。8文字以上で設定すること。|
 |firstname|名|
 |lastname|姓|
-|mail|メールアドレス。基本は〇〇@example.comで設定すること|
+|mail|メールアドレス。例：〇〇@example.com|
 |admin|管理者権限を付与するかどうか。trueかfalseで設定すること（**小文字で。Excelで編集しようとすると大文字になるので注意してください**）。|
