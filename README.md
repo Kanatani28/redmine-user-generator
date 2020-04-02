@@ -2,6 +2,11 @@
 
 [ダウンロードはこちらから](https://github.com/Kanatani28/redmine-user-generator/releases)
 
+Windows: redmine-user-generator_windows_x86_64.zip   
+Mac: redmine-user-generator_darwin_x86_64.tar.gz   
+Linux: redmine-user-generator_linux_x86_64.tar.gz   
+
+
 config.ymlとusers.csvに設定をしてから実行ファイルを叩くと  
 Redmineのユーザーが一気に作成されます。
 
