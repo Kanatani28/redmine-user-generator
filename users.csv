@@ -1,2 +1,3 @@
 login,password,firstname,lastname,mail,admin
 sato,password,taro,sato,taro_sato@example.com,true
+suzuki,password2,jiro,suzuki,jiro_suzuki@example.com,false
